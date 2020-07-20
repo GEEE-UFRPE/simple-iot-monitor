@@ -1,0 +1,16 @@
+
+
+
+    <h2>New Reading</h2>
+    <form method="POST" class="read-form">{% csrf_token %} <!-- Por enquanto será usado o metodo GET-->
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
+    <center><div style="color:#000000; font-size: 85px; font-weight: normal" id="dday"></div></center>
+
+<!-- http://localhost:8000/new/?csrfmiddlewaretoken=YMPsB1VgtMFdeGZboSPaVoMAXtFyBS1hDZVIdf4lefeUOL67RlH5ItbvRxzWdiZS&name=2&sensor_read=7 
+							URL gerado quando enviado uma leitura do sensor de PH do Rio Capibaribe
+    http://localhost:8000/new/?csrfmiddlewaretoken=TvbHyAeX0zubrUyuutFy6AyiJC2RX3qxyIhXaOn2L23S1ZFqXWxtTFXdDGWfzto8&name=3&sensor_read=10000
+    						URL gerado quando envio uma leitura do sensor de nivel do Rio Capibaribe
+-->

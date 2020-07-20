@@ -1,0 +1,19 @@
+<html>
+<head>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<h2>Escolha Uma opção:</h2>   
+</head>
+<body>
+	<!-- <meta http-equiv="refresh" content="5;url="> Comando para atualizar a pagina a cada 5 segundos -->
+	{% for type in types %}
+		<h4>{{ type.name }}</h4>
+		{% for thing in type.thing_set.all %}
+    	<div>
+        	<p><ul><li><h4><a href="{% url 'description' pk=thing.pk %}">{{ thing.name }}</a></h4></li></ul></p> 
+    	</div>
+		{% endfor %}
+	{% endfor %}
+</body>
+</html>
+
