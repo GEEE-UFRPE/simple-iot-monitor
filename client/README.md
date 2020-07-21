@@ -1,0 +1,1 @@
+This folder contains source code examples of clients that will send data to the Simple IoT Monitor.
