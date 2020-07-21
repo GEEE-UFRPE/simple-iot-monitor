@@ -24,11 +24,11 @@ def new_reading(request):
 		print(request.POST.get('device'))
 		print(request.POST.get('password'))
 		print(request.POST.get('id'))
-		print(request.POST.get('sensor_read'))
+		print(request.POST.get('value'))
 		user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))
 		if user is not None:
 			Nova_Leitura = Sensor.objects.get(pk=request.POST.get('id')) #pk = ID do sensor ---> Sensor de PH = 2.
-			Nova_Leitura.reading_set.create(sensor_read=request.POST.get('sensor_read')) # sensor_read = leitura do sensor
+			Nova_Leitura.reading_set.create(value=request.POST.get('value')) # value = leitura do sensor
 			Nova_Leitura.save()
 			return HttpResponse('Usuario Logado')
 		else:

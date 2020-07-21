@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class RiosConfig(AppConfig):
+class IotmonitorConfig(AppConfig):
     name = 'iotmonitor'

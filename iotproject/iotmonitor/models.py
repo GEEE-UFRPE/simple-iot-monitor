@@ -1,19 +1,13 @@
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 #AO ALTERAR O ARQUIVO NÃO ESQUECER:
-#py manage.py makemigrations
-#py manage.py migrate
+#python manage.py makemigrations
+#python manage.py migrate
 
 class TypeOfThing(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
@@ -25,31 +19,22 @@ class Thing(models.Model):
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
-
     def __str__(self):
         return self.name
 
 class Sensor(models.Model):
-	thing_monitored = models.ForeignKey(Thing, on_delete=models.CASCADE)
-	sensor_name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    thing_monitored = models.ForeignKey(Thing, on_delete=models.CASCADE)
+    description = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
 
-	def publish(self):
-		self.published_date = timezone.now()
-		self.save()
-
-	def __str__(self):
-		return str(self.sensor_name)
+    def __str__(self):
+        return str(self.name)
 
 class Reading(models.Model):
-	name = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-	sensor_read = models.CharField(max_length=200)
+    sensor_name = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    value = models.CharField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now)
 
-	def publish(self):
-		self.published_date = timezone.now()
-		self.save()
-
-	def __str__(self):
-		return str(self.sensor_read)
+    def __str__(self):
+        return str(self.value)
