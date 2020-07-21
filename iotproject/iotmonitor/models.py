@@ -20,7 +20,7 @@ class Thing(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.name
+        return '{} {}'.format(self.type_of_thing.name, self.name)
 
 class Sensor(models.Model):
     name = models.CharField(max_length=200)
@@ -29,7 +29,7 @@ class Sensor(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.name)
+        return '{} - {}'.format(self.thing_monitored.__str__(), self.name)
 
 class Reading(models.Model):
     sensor_name = models.ForeignKey(Sensor, on_delete=models.CASCADE)
