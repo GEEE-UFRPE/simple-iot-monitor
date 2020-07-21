@@ -1,6 +1,10 @@
 {% extends 'iotmonitor/base.html' %}
 
 {% block content %}
+
+<!--Comando para atualizar a pagina a cada 5 segundos-->
+<!-- <meta http-equiv="refresh" content="5;url="> -->
+
     <div class="thing">
         <h2>{{ thing.name }}</h2>
         <p><h4>Descrição: {{ thing.description|linebreaksbr }} </h4></p>
