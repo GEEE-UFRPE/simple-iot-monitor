@@ -8,8 +8,6 @@ urlpatterns = [
     # path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('description/<int:pk>/', views.description, name='description'),
     path('new/', views.new_reading, name='new_reading'),
-    path('login/', views.do_login, name='login'),
-    path('logout/', views.do_logout, name='logout'),
 ]
 
 #if settings.DEBUG:
