@@ -10,13 +10,13 @@ from django.views.decorators.csrf import csrf_exempt
 def post_list(request):
 	types = TypeOfThing.objects.all().order_by('name')
 	things = Thing.objects.all().order_by('name')
-	return render(request, 'iotmonitor/post_list.html', {'things': things, 'types': types})
+	return render(request, 'iotmonitor/thing_list.html', {'things': things, 'types': types})
 
 
 def description(request, pk):
 	thing = Thing.objects.get(pk=pk)
 	sensors = thing.sensor_set.all()
-	return render(request, 'iotmonitor/description.html', {'thing': thing, 'sensors': sensors}) #Contexto do Sensor, como fazer?
+	return render(request, 'iotmonitor/thing_detail.html', {'thing': thing, 'sensors': sensors}) #Contexto do Sensor, como fazer?
 
 @csrf_exempt
 def new_reading(request):

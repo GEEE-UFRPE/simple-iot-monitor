@@ -1,0 +1,36 @@
+{% extends 'iotmonitor/base.html' %}
+
+{% block content %}
+<!-- <meta http-equiv="refresh" content="5;url="> Comando para atualizar a pagina a cada 5 segundos -->
+<!--	<h5>what's being monitored:</h5>-->
+<div class="accordion" id="things-accordion">
+    {% for type in types %}
+    <div class="card">
+        <div class="card-header bg-info p-0" id="heading{{ type.id }}">
+                <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
+                        data-target="#collapse{{ type.id }}" aria-expanded="true" aria-controls="collapse{{ type.id }}">
+                    {{ type.name }}
+                </button>
+        </div>
+        <div id="collapse{{ type.id }}" class="collapse show" aria-labelledby="heading{{ type.id }}"
+             data-parent="#things-accordion">
+            <div class="card-body">
+				<p class="font-italic">{{ type.description }}</p>
+                <ul class="">
+                    {% for thing in type.thing_set.all %}
+                    <div>
+                        <li class="">
+                            <a href="{% url 'description' pk=thing.pk %}">
+                                {{ thing.name }}
+                            </a>
+                            - {{ thing.description }}
+                        </li>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endblock %}
