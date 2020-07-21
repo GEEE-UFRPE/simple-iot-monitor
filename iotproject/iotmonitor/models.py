@@ -5,7 +5,7 @@ from django.utils import timezone
 #python manage.py migrate
 
 class TypeOfThing(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField('Type of thing', max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -14,7 +14,7 @@ class TypeOfThing(models.Model):
 
 
 class Thing(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField('Thing', max_length=200)
     type_of_thing = models.ForeignKey(TypeOfThing, on_delete=models.CASCADE)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
@@ -23,7 +23,7 @@ class Thing(models.Model):
         return '{} {}'.format(self.type_of_thing.name, self.name)
 
 class Sensor(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField('Sensor', max_length=200)
     thing_monitored = models.ForeignKey(Thing, on_delete=models.CASCADE)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
