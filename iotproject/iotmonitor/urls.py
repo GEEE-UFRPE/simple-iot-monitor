@@ -4,9 +4,8 @@ from django.conf import settings
 from django.template.response import TemplateResponse 
 
 urlpatterns = [
-    path('', views.post_list, name='post_list'),
-    # path('post/<int:pk>/', views.post_detail, name='post_detail'),
-    path('description/<int:pk>/', views.description, name='description'),
+    path('', views.thing_list, name='thing_list'),
+    path('thing_detail/<int:pk>/', views.thing_detail, name='thing_detail'),
     path('new/', views.new_reading, name='new_reading'),
 ]
 
