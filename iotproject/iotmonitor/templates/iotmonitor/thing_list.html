@@ -16,20 +16,26 @@
             <div class="card-body">
 				<p class="font-italic">{{ type.description }}</p>
                 <ul class="">
-                    {% for thing in type.thing_set.all %}
+                    {% for thing in type.thing_set.all|dictsort:"name" %}
                     <div>
                         <li class="">
                             <a href="{% url 'thing_detail' pk=thing.pk %}">
                                 {{ thing.name }}
                             </a>
-                            - {{ thing.description }}
+                            - {{ thing.description|truncatechars:150 }}
                         </li>
+                    </div>
+                    {% empty %}
+                    <div class="font-italic">
+                        There's nothing of this type recorded in the database yet. In order to do so,
+                        please access the <a href="{% url 'admin:index' %}">admin</a> interface</p>
                     </div>
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
-
+    {% empty %}
+        <p>Sorry, nothing has been recorded in the database yet. Please access the <a href="{% url 'admin:index' %}">admin</a> interface</p>
     {% endfor %}
     {% endblock %}
