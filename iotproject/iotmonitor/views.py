@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime,timedelta,time
+
 
 def thing_list(request):
 	types = TypeOfThing.objects.all().order_by('name').annotate(things_count=Count('thing'))
@@ -17,7 +19,19 @@ def thing_list(request):
 def thing_detail(request, pk):
 	thing = Thing.objects.get(pk=pk)
 	sensors = thing.sensor_set.all()
-	return render(request, 'iotmonitor/thing_detail.html', {'thing': thing, 'sensors': sensors}) #Contexto do Sensor, como fazer?
+
+	# to determine reading of today
+	today = datetime.now().date()
+	tomorrow = today + timedelta(1)
+	today_start = datetime.combine(today, time())
+	today_end = datetime.combine(tomorrow, time())
+	read_today = Reading.objects.filter(created_date__range=[today_start, today_end])
+	total_sensors = sensors.count()
+
+	context= {'thing': thing, 'sensors': sensors,
+			  'read_today':read_today,'total_sensors':total_sensors}
+
+	return render(request, 'iotmonitor/thing_detail.html', context) #Contexto do Sensor, como fazer?
 
 @csrf_exempt
 def new_reading(request):

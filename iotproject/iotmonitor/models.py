@@ -33,8 +33,11 @@ class Sensor(models.Model):
 
 class Reading(models.Model):
     sensor_name = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    value = models.CharField(max_length=200)
+    value = models.FloatField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
 
     def __str__(self):
         return str(self.value)

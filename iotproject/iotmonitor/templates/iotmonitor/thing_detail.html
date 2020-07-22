@@ -1,6 +1,7 @@
 {% extends 'iotmonitor/base.html' %}
-
+{% load tags_extras%}
 {% block content %}
+
 
 <!--Comando para atualizar a pagina a cada 5 segundos-->
 <!-- <meta http-equiv="refresh" content="5;url="> -->
@@ -9,10 +10,56 @@
         <h2>{{ thing.name }}</h2>
         <p><h4>Descrição: {{ thing.description|linebreaksbr }} </h4></p>
     </div>
-    <div class="Sensor">
-        <h2>Sensores:</h2>
-        {% for sensor in sensors %}
-        <h4> {{ sensor.sensor_name }}</h4>
-        {% endfor %}
-    </div>
+    <br>
+    <div class="sensor">
+    {% for sensor in sensors %}
+
+        <div>
+            <h3>Sensor {{sensor.name}} | id: {{sensor.id}}</h3>
+            <p>Maior leitura já obtida por este sensor: {{sensor.reading_set.all|max_value|floatformat:2}} </p>
+            <p>Menor leitura já obtida por este sensor: {{sensor.reading_set.all|min_value|floatformat:2}}</p>
+            <p>Maior leitura de hoje: {{sensor.reading_set.all|todayis|max_value|floatformat:2}} </p>
+            <p>Menor leitura de hoje: {{sensor.reading_set.all|todayis|min_value|floatformat:2}}</p>
+            <p>Média de hoje: {{sensor.reading_set.all|todayis|avg_value|floatformat:2}} </p>
+            <p>Quantidade de leituras feitas hoje: {{ sensor.reading_set|todayiscount}} </p>
+
+                <br>
+
+                <table  class="table table-hover">
+                    <thead>
+                        <tr><td colspan="4" ><h5>Leituras Mais Recentes</h5></td></tr>
+                        <tr>
+                            <th scope="col">
+                                <h5>Data</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Hora</h5>
+                            </th>
+                            <th scope="col">
+                                <h5>Dado Obtido</h5>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for reading in sensor.reading_set.all %}
+                        {% if forloop.counter <= 10 %}
+                        <tr>
+                            <td for="{{ foorloop.counter }}">
+                                {{reading.created_date|date:"d/m/Y "}}
+                            </td>
+                            <td>
+                                {{reading.created_date|date:"H:i"}}
+                            </td>
+                            <td>
+                                {{ reading.value|floatformat:2 }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        <br>
+    {% endfor %}
+</div>
 {% endblock %}
