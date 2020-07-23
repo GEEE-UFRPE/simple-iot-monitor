@@ -26,16 +26,14 @@ def thing_detail(request, pk):
 
 @csrf_exempt
 def new_reading(request):
-		print('request received')
-		print(request.POST.get('device'))
-		print(request.POST.get('password'))
-		print(request.POST.get('id'))
-		print(request.POST.get('value'))
 		user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))
 		if user is not None:
-			Nova_Leitura = Sensor.objects.get(pk=request.POST.get('id')) #pk = ID do sensor ---> Sensor de PH = 2.
-			Nova_Leitura.reading_set.create(value=request.POST.get('value')) # value = leitura do sensor
-			Nova_Leitura.save()
-			return HttpResponse('Usuario Logado')
+			try:
+				new_reading = Sensor.objects.get(pk=request.POST.get('id'))  # pk = sensor ID
+				new_reading.reading_set.create(value=float(request.POST.get('value')))
+				new_reading.save()
+				return HttpResponse('device authenticated and data recorded')
+			except:
+				return HttpResponse('device authenticated but unable to record data')
 		else:
-			return HttpResponse('Usuario Não Logado')
+			return HttpResponse('device not authenticated')

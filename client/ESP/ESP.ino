@@ -19,7 +19,7 @@ void loop() {
     http.begin("http://SEU_IP:8000/new/");//SEU_IP, IP where the server is hosted
     http.addHeader("content-type", "application/x-www-form-urlencoded");
 
-    String body = "device=esp1&password=casa2121&id=1&sensor_read=";//String to send for server
+    String body = "device=esp1&password=casa2121&id=1&value=";//String to send for server
     string_count = String("PUT YOUR DATA");//Data to send for server
     body = body + string_count;//Concatenate Strings
     Serial.println(body);//Send the request for Serial
