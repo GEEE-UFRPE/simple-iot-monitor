@@ -31,27 +31,27 @@
                      data-parent="#things-accordion">
                     <div class="card-body">
                         Highest reading (all time): <span class="font-weight-bold">
-                        {{sensor.reading_set.all|max_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|max_value|floatformat:2}} </span><br>
 
                         Lowest reading (all time):<span class="font-weight-bold">
-                        {{sensor.reading_set.all|min_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|min_value|floatformat:2}} </span><br>
 
                         Average reading (all time): <span class="font-weight-bold">
-                        {{sensor.reading_set.all|avg_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|avg_value|floatformat:2}} </span><br>
 
                         <br>
 
                         Highest reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set.all|is_today|max_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|is_today|max_value|floatformat:2}} </span><br>
 
                         Lowest reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set.all|is_today|min_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|is_today|min_value|floatformat:2}} </span><br>
 
                         Average reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set.all|is_today|avg_value|floatformat:2}} </span><br>
+                        {{sensor.reading_set|is_today|avg_value|floatformat:2}} </span><br>
 
                         Number of readings (today): <span class="font-weight-bold">
-                        {{ sensor.reading_set|is_today|count}} </span><br>
+                        {{sensor.reading_set|is_today|count}} </span><br>
 
                         <br>
 
