@@ -71,8 +71,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for reading in sensor.reading_set.all %}
-                            {% if forloop.counter <= 10 %}
+                            {% for reading in sensor.reading_set.all|slice:"0:10" %}
                             <tr>
                                 <td for="{{ foorloop.counter }}">
                                     {{reading.created_date|date:"d/m/Y "}}
@@ -84,7 +83,7 @@
                                     {{ reading.value|floatformat:2 }}
                                 </td>
                             </tr>
-                            {% endif %}
+
                             {% empty %}
                             <tr>
                                 <td>No reading has been recorded by this sensor yet</td>
