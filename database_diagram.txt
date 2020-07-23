@@ -1,0 +1,36 @@
+//this code can be used in https://dbdiagram.io/ to generate a pretty
+//diagram of the simple-iot-monitor database
+
+Table typeofthing {
+  id int [pk, increment] // auto-increment
+  name varchar(200)
+  description text
+  created_date timestamp
+}
+
+Table thing {
+  id int [pk, increment] // auto-increment
+  name varchar(200)
+  type_of_thing int
+  description text
+  created_date timestamp
+}
+
+Table sensor {
+  id int [pk, increment] // auto-increment
+  name varchar(200)
+  thing_monitored int
+  description text
+  created_date timestamp
+}
+
+Table reading {
+  id int [pk, increment] // auto-increment
+  sensor int
+  value float
+  created_date timestamp
+}
+
+Ref: reading.sensor > sensor.id
+Ref: sensor.thing_monitored > thing.id
+Ref: thing.type_of_thing > typeofthing.id
