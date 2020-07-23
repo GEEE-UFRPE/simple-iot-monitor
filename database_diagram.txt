@@ -3,32 +3,32 @@
 
 Table typeofthing {
   id int [pk, increment] // auto-increment
-  name varchar(200)
+  name varchar(200) [not null, unique]
   description text
-  created_date timestamp
+  created_date timestamp [not null]
 }
 
 Table thing {
   id int [pk, increment] // auto-increment
-  name varchar(200)
+  name varchar(200) [not null, unique]
   type_of_thing int
   description text
-  created_date timestamp
+  created_date timestamp [not null]
 }
 
 Table sensor {
   id int [pk, increment] // auto-increment
-  name varchar(200)
+  name varchar(200) [not null]
   thing_monitored int
   description text
-  created_date timestamp
+  created_date timestamp [not null]
 }
 
 Table reading {
   id int [pk, increment] // auto-increment
   sensor int
   value float
-  created_date timestamp
+  created_date timestamp [not null]
 }
 
 Ref: reading.sensor > sensor.id

@@ -11,19 +11,18 @@ from datetime import datetime,timedelta,time
 
 def thing_list(request):
 	types = TypeOfThing.objects.all().order_by('name').annotate(things_count=Count('thing'))
-	# things = TypeOfThing.objects.prefetch_related('type').all().order_by('name')
-	# things = Thing.objects.order_by('name').all()
-	return render(request, 'iotmonitor/thing_list.html', {'types': types})
+	things_without_type = Thing.objects.filter(type_of_thing__isnull=True)
+	return render(request, 'iotmonitor/thing_list.html',
+				  {'types': types, 'things_without_type': things_without_type})
 
 
 def thing_detail(request, pk):
 	thing = Thing.objects.get(pk=pk)
 	sensors = thing.sensor_set.all().order_by('name')
+	return render(request, 'iotmonitor/thing_detail.html',
+				  {'thing': thing, 'sensors': sensors})
 
-	context= {'thing': thing, 'sensors': sensors}
-
-	return render(request, 'iotmonitor/thing_detail.html', context)
-
+#use the csrf_exempt tag since this view will be accessed from a external device
 @csrf_exempt
 def new_reading(request):
 		user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))

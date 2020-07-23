@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils import timezone
-#AO ALTERAR O ARQUIVO NÃO ESQUECER:
-#python manage.py makemigrations
-#python manage.py migrate
+# after changing the models, update the database with these commands
+#   python manage.py makemigrations
+#   python manage.py migrate
+# and also remember to update the database_diagram.txt file in the root folder
 
 class TypeOfThing(models.Model):
-    name = models.CharField('Type of thing', max_length=200)
-    description = models.TextField()
+    name = models.CharField('Type of thing', max_length=200, unique=True)
+    description = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -14,18 +15,25 @@ class TypeOfThing(models.Model):
 
 
 class Thing(models.Model):
-    name = models.CharField('Thing', max_length=200)
-    type_of_thing = models.ForeignKey(TypeOfThing, on_delete=models.CASCADE)
-    description = models.TextField()
+    name = models.CharField('Thing', max_length=200, unique=True)
+    type_of_thing = models.ForeignKey(TypeOfThing, on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return '{} {}'.format(self.type_of_thing.name, self.name)
+        result = ''
+        if self.type_of_thing:
+            # if this thing is associated with a type, add the type to the string
+            # this makes it easier to identify the thing when there are multiple types of things recorded
+            result = '{} {}'.format(self.type_of_thing.name, self.name)
+        else:
+            result = self.name
+        return result
 
 class Sensor(models.Model):
     name = models.CharField('Sensor', max_length=200)
     thing_monitored = models.ForeignKey(Thing, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

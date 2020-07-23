@@ -39,9 +39,41 @@
                 </div>
             </div>
             {% empty %}
+            {% if things_without_type|length <= 0 %}
             <p>Sorry, nothing has been recorded in the database yet. Please access the <a
                     href="{% url 'admin:index' %}">admin</a> interface</p>
+            {% endif %}
             {% endfor %}
+
+            {% if things_without_type|length > 0 %}
+            <div class="card">
+                <div class="card-header bg-info p-0" id="headingTypeless">
+                    <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
+                            data-target="#collapseTypeless" aria-expanded="true"
+                            aria-controls="collapseTypeless">
+                        Uncategorized things ( {{ things_without_type|length }} )
+                    </button>
+                </div>
+                <div id="collapseTypeless" class="collapse show" aria-labelledby="headingTypeless"
+                     data-parent="#things-accordion">
+                    <div class="card-body">
+                        <p class="font-italic">{{ type.description }}</p>
+                        <ul class="">
+                            {% for thing in things_without_type|dictsort:"name" %}
+                            <div>
+                                <li class="">
+                                    <a href="{% url 'thing_detail' pk=thing.pk %}">
+                                        {{ thing.name }}
+                                    </a>
+                                    - {{ thing.description|truncatechars:150 }}
+                                </li>
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endblock %}
