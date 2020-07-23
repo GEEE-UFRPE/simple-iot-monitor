@@ -22,7 +22,7 @@ def avg_value(list):
     return avgvl['value__avg']
 
 @register.filter
-def todayis(list):
+def is_today(list):
     print(time())
     today = datetime.now().date()
     tomorrow = today + timedelta(1)
@@ -31,12 +31,6 @@ def todayis(list):
     return list.filter(created_date__range=[today_start,today_end])
 
 @register.filter
-def todayiscount(list):
-    today = datetime.now().date()
-    tomorrow = today + timedelta(1)
-    today_start = datetime.combine(today, time())
-    today_end = datetime.combine(tomorrow, time())
-    lenlist = list.filter(created_date__range=[today_start,today_end])
-    return len(lenlist)
-
+def count(list):
+    return len(list)
 

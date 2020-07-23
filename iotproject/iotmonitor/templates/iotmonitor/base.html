@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
     <style>
+        html {
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
         .container {
             padding: 40px 15px;
         }
-
-
-
     </style>
 </head>
 <body>
@@ -32,12 +33,10 @@
 
 <main role="main" class="flex-shrink-0">
     <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
+
                 {% block content %}
                 {% endblock %}
-            </div>
-        </div>
+
     </div>
 </main>
 

@@ -1,41 +1,47 @@
 {% extends 'iotmonitor/base.html' %}
 
 {% block content %}
-<!--	<h5>what's being monitored:</h5>-->
-<div class="accordion" id="things-accordion">
-    {% for type in types %}
-    <div class="card">
-        <div class="card-header bg-info p-0" id="heading{{ type.id }}">
-                <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
-                        data-target="#collapse{{ type.id }}" aria-expanded="true" aria-controls="collapse{{ type.id }}">
-                    {{ type.name }} ( {{ type.things_count }} )
-                </button>
-        </div>
-        <div id="collapse{{ type.id }}" class="collapse show" aria-labelledby="heading{{ type.id }}"
-             data-parent="#things-accordion">
-            <div class="card-body">
-				<p class="font-italic">{{ type.description }}</p>
-                <ul class="">
-                    {% for thing in type.thing_set.all|dictsort:"name" %}
-                    <div>
-                        <li class="">
-                            <a href="{% url 'thing_detail' pk=thing.pk %}">
-                                {{ thing.name }}
-                            </a>
-                            - {{ thing.description|truncatechars:150 }}
-                        </li>
+<div class="row">
+    <div class="col-md-8">
+        <!--	<h5>what's being monitored:</h5>-->
+        <div class="accordion" id="things-accordion">
+            {% for type in types %}
+            <div class="card">
+                <div class="card-header bg-info p-0" id="heading{{ type.id }}">
+                    <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
+                            data-target="#collapse{{ type.id }}" aria-expanded="true"
+                            aria-controls="collapse{{ type.id }}">
+                        {{ type.name }} ( {{ type.things_count }} )
+                    </button>
+                </div>
+                <div id="collapse{{ type.id }}" class="collapse show" aria-labelledby="heading{{ type.id }}"
+                     data-parent="#things-accordion">
+                    <div class="card-body">
+                        <p class="font-italic">{{ type.description }}</p>
+                        <ul class="">
+                            {% for thing in type.thing_set.all|dictsort:"name" %}
+                            <div>
+                                <li class="">
+                                    <a href="{% url 'thing_detail' pk=thing.pk %}">
+                                        {{ thing.name }}
+                                    </a>
+                                    - {{ thing.description|truncatechars:150 }}
+                                </li>
+                            </div>
+                            {% empty %}
+                            <div class="font-italic">
+                                There's nothing of this type recorded in the database yet. In order to do so,
+                                please access the <a href="{% url 'admin:index' %}">admin</a> interface</p>
+                            </div>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    {% empty %}
-                    <div class="font-italic">
-                        There's nothing of this type recorded in the database yet. In order to do so,
-                        please access the <a href="{% url 'admin:index' %}">admin</a> interface</p>
-                    </div>
-                    {% endfor %}
-                </ul>
+                </div>
             </div>
+            {% empty %}
+            <p>Sorry, nothing has been recorded in the database yet. Please access the <a
+                    href="{% url 'admin:index' %}">admin</a> interface</p>
+            {% endfor %}
         </div>
     </div>
-    {% empty %}
-        <p>Sorry, nothing has been recorded in the database yet. Please access the <a href="{% url 'admin:index' %}">admin</a> interface</p>
-    {% endfor %}
     {% endblock %}

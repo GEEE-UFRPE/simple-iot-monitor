@@ -4,62 +4,103 @@
 
 
 <!--Comando para atualizar a pagina a cada 5 segundos-->
-<!-- <meta http-equiv="refresh" content="5;url="> -->
-
-    <div class="thing">
-        <h2>{{ thing.name }}</h2>
-        <p><h4>Descrição: {{ thing.description|linebreaksbr }} </h4></p>
+<!-- <meta http-equiv="refresh" content="5;url=">-->
+<div class="row">
+    <div class="col-md-8">
+        <div class="thing">
+            <h2>{{ thing.type_of_thing.name }} {{ thing.name }}</h2>
+            <p class="font-italic">{{ thing.description|linebreaksbr }}</span></p>
+        </div>
     </div>
-    <br>
-    <div class="sensor">
-    {% for sensor in sensors %}
+</div>
 
-        <div>
-            <h3>Sensor {{sensor.name}} | id: {{sensor.id}}</h3>
-            <p>Maior leitura já obtida por este sensor: {{sensor.reading_set.all|max_value|floatformat:2}} </p>
-            <p>Menor leitura já obtida por este sensor: {{sensor.reading_set.all|min_value|floatformat:2}}</p>
-            <p>Maior leitura de hoje: {{sensor.reading_set.all|todayis|max_value|floatformat:2}} </p>
-            <p>Menor leitura de hoje: {{sensor.reading_set.all|todayis|min_value|floatformat:2}}</p>
-            <p>Média de hoje: {{sensor.reading_set.all|todayis|avg_value|floatformat:2}} </p>
-            <p>Quantidade de leituras feitas hoje: {{ sensor.reading_set|todayiscount}} </p>
+<div class="row">
+    <div class="col-md-8">
+        <div class="accordion" id="things-accordion">
+            {% for sensor in sensors %}
 
-                <br>
+            <div class="card">
+                <div class="card-header bg-info p-0" id="heading{{ sensor.id }}">
+                    <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
+                            data-target="#collapse{{ sensor.id }}" aria-expanded="false"
+                            aria-controls="collapse{{ sensor.id }}">
+                        Sensor {{sensor.name}} | id: {{sensor.id}}
+                    </button>
+                </div>
+                <div id="collapse{{ sensor.id }}" class="collapse" aria-labelledby="heading{{ sensor.id }}"
+                     data-parent="#things-accordion">
+                    <div class="card-body">
+                        Highest reading (all time): <span class="font-weight-bold">
+                        {{sensor.reading_set.all|max_value|floatformat:2}} </span><br>
 
-                <table  class="table table-hover">
-                    <thead>
-                        <tr><td colspan="4" ><h5>Leituras Mais Recentes</h5></td></tr>
-                        <tr>
-                            <th scope="col">
-                                <h5>Data</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Hora</h5>
-                            </th>
-                            <th scope="col">
-                                <h5>Dado Obtido</h5>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for reading in sensor.reading_set.all %}
-                        {% if forloop.counter <= 10 %}
-                        <tr>
-                            <td for="{{ foorloop.counter }}">
-                                {{reading.created_date|date:"d/m/Y "}}
-                            </td>
-                            <td>
-                                {{reading.created_date|date:"H:i"}}
-                            </td>
-                            <td>
-                                {{ reading.value|floatformat:2 }}
-                            </td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        Lowest reading (all time):<span class="font-weight-bold">
+                        {{sensor.reading_set.all|min_value|floatformat:2}} </span><br>
+
+                        Average reading (all time): <span class="font-weight-bold">
+                        {{sensor.reading_set.all|avg_value|floatformat:2}} </span><br>
+
+                        <br>
+
+                        Highest reading (today): <span class="font-weight-bold">
+                        {{sensor.reading_set.all|is_today|max_value|floatformat:2}} </span><br>
+
+                        Lowest reading (today): <span class="font-weight-bold">
+                        {{sensor.reading_set.all|is_today|min_value|floatformat:2}} </span><br>
+
+                        Average reading (today): <span class="font-weight-bold">
+                        {{sensor.reading_set.all|is_today|avg_value|floatformat:2}} </span><br>
+
+                        Number of readings (today): <span class="font-weight-bold">
+                        {{ sensor.reading_set|is_today|count}} </span><br>
+
+                        <br>
+
+                        <h5>Most recent readings</h5>
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">
+                                    Date
+                                </th>
+                                <th scope="col">
+                                    Time
+                                </th>
+                                <th scope="col">
+                                    Value
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for reading in sensor.reading_set.all %}
+                            {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td for="{{ foorloop.counter }}">
+                                    {{reading.created_date|date:"d/m/Y "}}
+                                </td>
+                                <td>
+                                    {{reading.created_date|date:"H:i"}}
+                                </td>
+                                <td>
+                                    {{ reading.value|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% empty %}
+                            <tr>
+                                <td>No reading has been recorded by this sensor yet</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        <br>
-    {% endfor %}
+
+            {% empty %}
+            <p>Sorry, no sensor has been recorded for this {{ thing.type_of_thing.name }} yet. Please access the <a
+                    href="{% url 'admin:index' %}">admin</a> interface to add new sensors.</p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}
