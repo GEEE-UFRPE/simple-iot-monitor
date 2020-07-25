@@ -3,7 +3,7 @@ A simple webserver for receiving data from sensors in a local network and displa
 It is meant to be used by hobbyists and students in a local network. 
 It is not meant to be deployed on the Internet, due to security concerns.
 
-## How to use
+## How to run the system
 *NOTICE: it is not recommended to deploy this system to the Internet. Use it only on a
  local network*
  
@@ -30,6 +30,10 @@ and click on the Admin button
        - example:  http://192.168.1.4:8000/iotmonitor
  - *NOTICE: it is not recommended to deploy this system to the Internet. Use it only on a
  local network*
+
+## How to send data to the system
+An example of how to send sensor data to the system through an ESP device (e.g., ESP32)
+is available at [client/ESP] 
 
 ## User requirements
 
