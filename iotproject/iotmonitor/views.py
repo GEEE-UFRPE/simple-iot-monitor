@@ -20,19 +20,19 @@ def thing_detail(request, pk):
 	thing = Thing.objects.get(pk=pk)
 	sensors = thing.sensor_set.all().order_by('name')
 	return render(request, 'iotmonitor/thing_detail.html',
-				  {'thing': thing, 'sensors': sensors})
+				  {'thing': thing, 'sensors': sensors,})
 
 #use the csrf_exempt tag since this view will be accessed from a external device
 @csrf_exempt
 def new_reading(request):
-		user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))
-		if user is not None:
-			try:
-				new_reading = Sensor.objects.get(pk=request.POST.get('id'))  # pk = sensor ID
-				new_reading.reading_set.create(value=float(request.POST.get('value')))
-				new_reading.save()
-				return HttpResponse('device authenticated and data recorded')
-			except:
-				return HttpResponse('device authenticated but unable to record data')
-		else:
-			return HttpResponse('device not authenticated')
+	user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))
+	if user is not None:
+		try:
+			new_reading = Sensor.objects.get(pk=request.POST.get('id'))  # pk = sensor ID
+			new_reading.reading_set.create(value=float(request.POST.get('value')))
+			new_reading.save()
+			return HttpResponse('device authenticated and data recorded')
+		except:
+			return HttpResponse('device authenticated but unable to record data')
+	else:
+		return HttpResponse(f'device not authenticated and he is {request.POST.get("device")}')

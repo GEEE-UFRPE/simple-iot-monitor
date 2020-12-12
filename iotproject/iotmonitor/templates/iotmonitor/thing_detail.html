@@ -55,6 +55,72 @@
 
                         <br>
 
+                        <hr>
+                        {% if sensor.reading_set.all %}
+                        <!-- Create a Chart -->
+            <canvas id="{{sensor.name}}" width="300" height="100"></canvas>
+
+            {% block scripts %}
+            <script>
+            Chart.defaults.global.defaultFontColor = 'black';
+            Chart.defaults.global.defaultFontSize = 20;
+
+            var ctx = document.getElementById("{{sensor.name}}");
+
+            var dates = []
+            var value = []
+
+            {% for reading in sensor.reading_set.all|slice:"0:5" reversed %}
+
+            dates.push('{{reading.created_date|date:"H:i"}}');
+            value.push('{{ reading.value }}');
+
+            {% endfor %}
+
+            var productsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Leituras',
+                        data: value,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:false
+                            }
+                        }]
+                    }
+                }
+            });
+            </script>
+            {% endblock %}
+
+            <!-- end of create chart -->
+                        <hr>
+            {% endif %}
+
+
                         <h5>Most recent readings</h5>
                         <table class="table table-hover table-sm">
                             <thead>
