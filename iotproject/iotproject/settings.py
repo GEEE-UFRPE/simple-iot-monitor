@@ -25,7 +25,14 @@ SECRET_KEY = 'hsg0l6agm#8=b*qy5t00e6hk7_elj7$x1vngldiv5&wvy_w1(g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ip = []
+
+with open("ip.txt","r") as filetxt:
+    for userip in filetxt:
+        ip = userip
+
+
+ALLOWED_HOSTS = ['localhost',ip]
 
 
 # Application definition

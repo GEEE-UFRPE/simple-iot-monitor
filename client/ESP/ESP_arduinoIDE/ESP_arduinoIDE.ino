@@ -4,8 +4,8 @@
 String SSID = "WIFI_NAME"; //name of the wifi network to connect
 String NETWORK_PASSWORD = "WIFI_PASSWORD"; //network password
 String IP_ADDRESS = "IP_ADRESS"; //ip address of server. Example: "192.168.1.1"
-String DEVICE_NAME = "USER"; //name that was registered for this device
-String DEVICE_PASSWORD = "USER_PASSWORD"; //password that was registered for this device
+String DEVICE_NAME = "admin"; //name that was registered for this device
+String DEVICE_PASSWORD = "ukJX^jhFo:re%?ZG.De#"; //password that was registered for this device
 
 
 void setup() {
@@ -37,7 +37,7 @@ void sendValue(String sensorId, String value) {
     //Check WiFi connection status
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
-        http.begin("http://" + IP_ADDRESS + ":8000/new/");
+        http.begin("http://" + IP_ADDRESS + ":8000/iotmonitor/new/");
         http.addHeader("content-type", "application/x-www-form-urlencoded");
 
         String body = "device=" + DEVICE_NAME + "&password=" + DEVICE_PASSWORD; //device authentication info

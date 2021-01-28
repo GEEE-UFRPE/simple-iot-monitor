@@ -5,13 +5,14 @@ import ujson
 #Wifi configuration
 ssid = '' #Your wifi name.
 wifi_password = ''
+your_ip = '' # Example: '192.168.0.1'
 
 #Server configuration
-url = "http:// YOUR IP HERE :8000/new/"   # Example:"http://192.168.0.1:8000/new/
+url = f"http://{your_ip}:8000/iotmonitor/new/"
 
 #Admin configuration
-admin_name = '' #The name of superuser created in the tutorial.
-admin_password = ''
+admin_name = 'admin' #The name of superuser created in the tutorial.
+admin_password = 'ukJX^jhFo:re%?ZG.De#'
 
 #Sensor Configuration
 sensor_id = ''  #We explain how to find the sensor id in the tutorial if you don't know.
