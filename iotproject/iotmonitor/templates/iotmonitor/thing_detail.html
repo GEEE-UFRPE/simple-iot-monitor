@@ -30,6 +30,8 @@
                 <div id="collapse{{ sensor.id }}" class="collapse" aria-labelledby="heading{{ sensor.id }}"
                      data-parent="#things-accordion">
                     <div class="card-body">
+                        <p class="font-italic">{{ sensor.description|linebreaksbr }}</span></p>
+
                         Highest reading (all time): <span class="font-weight-bold">
                         {{sensor.reading_set|max_value|floatformat:2}} </span><br>
 
