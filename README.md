@@ -35,6 +35,18 @@ and click on the Admin button
 An example of how to send sensor data to the system through an ESP device (e.g., ESP32)
 is available at [client/ESP] 
 
+
+## Why shouldn't I use this on the Internet
+This system was designed to be as easy to install and use as possible. Thus, some
+compromises have been made:
+- the communication between client and server is not encrypted
+- the default django server is used, with DEBUG settings
+
+This means that unauthorized third parties may be able to read you client-server
+communication, and also obtain unauthorized access to you system. Thus, be safe:
+do not deploy this system to the Internet unless you know what you're doing and
+make the necessary configurations. Otherwise, stick to a local network.
+
 ## User requirements
 
 
