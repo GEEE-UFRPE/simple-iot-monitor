@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 # after changing the models, update the database with these commands
 #   python manage.py makemigrations
@@ -31,7 +32,8 @@ class Thing(models.Model):
         return result
 
 class Sensor(models.Model):
-    name = models.CharField('Sensor', max_length=200)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField('Sensor name', max_length=200)
     thing_monitored = models.ForeignKey(Thing, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     created_date = models.DateTimeField(default=timezone.now)

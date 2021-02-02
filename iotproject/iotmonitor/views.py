@@ -25,14 +25,14 @@ def thing_detail(request, pk):
 #use the csrf_exempt tag since this view will be accessed from a external device
 @csrf_exempt
 def new_reading(request):
-	user = authenticate(username=request.POST.get('device'), password=request.POST.get('password'))
+	#use POST parameters to authentica
+	user = authenticate(username=request.POST.get('sensor'), password=request.POST.get('password'))
 	if user is not None:
 		try:
-			new_reading = Sensor.objects.get(pk=request.POST.get('id'))  # pk = sensor ID
-			new_reading.reading_set.create(value=float(request.POST.get('value')))
-			new_reading.save()
-			return HttpResponse('device authenticated and data recorded')
+			user.sensor.reading_set.create(value=float(request.POST.get('value')))
+			user.sensor.save()
+			return HttpResponse('Sensor authenticated and data succesfully recorded.')
 		except:
-			return HttpResponse('device authenticated but unable to record data')
+			return HttpResponse('Sensor authenticated but unable to record data. Make sure your sensor provided a value that can be parsed onto a numerical value.')
 	else:
-		return HttpResponse(f'device not authenticated and he is {request.POST.get("device")}')
+		return HttpResponse('Sensor not authenticated. Please check its username ({}) and password.'.format(request.POST.get('sensor')))
