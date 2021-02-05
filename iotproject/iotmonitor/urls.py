@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 urlpatterns = [
     path('', views.thing_list, name='thing_list'),
     path('thing/<int:pk>/', views.thing_detail, name='thing_detail'),
-    path('reading', views.new_reading, name='new_reading'),
+    path('readings', views.new_reading, name='new_reading'),
 ]
 
 #if settings.DEBUG:

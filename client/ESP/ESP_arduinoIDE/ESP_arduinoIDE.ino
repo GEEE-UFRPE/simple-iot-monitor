@@ -39,7 +39,7 @@ void sendValue(String sensorId, String value) {
     //Check WiFi connection status
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
-        http.begin("http://"+IP_ADDRESS+":8000/iotmonitor/reading");
+        http.begin("http://"+IP_ADDRESS+":8000/iotmonitor/readings");
         http.addHeader("content-type", "application/x-www-form-urlencoded");
 
         String body = "sensor=" + SENSOR_NAME + "&password=" + SENSOR_PASSWORD; //device authentication info
