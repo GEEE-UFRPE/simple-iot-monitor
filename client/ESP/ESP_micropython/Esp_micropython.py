@@ -8,7 +8,7 @@ wifi_password = ''
 your_ip = '' # Example: '192.168.0.1'
 
 #Server configuration
-url ="http://"+your_ip+":8000/iotmonitor/reading/"
+url ="http://"+your_ip+":8000/iotmonitor/reading"
 
 #Admin configuration
 sensor_name = 'sensor1' #The name of superuser created in the tutorial.
