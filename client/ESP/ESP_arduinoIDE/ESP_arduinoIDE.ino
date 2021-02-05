@@ -4,8 +4,10 @@
 String SSID = "WIFI_NAME"; //name of the wifi network to connect
 String NETWORK_PASSWORD = "WIFI_PASSWORD"; //network password
 String IP_ADDRESS = "IP_ADRESS"; //ip address of server. Example: "192.168.1.1"
-String DEVICE_NAME = "admin"; //name that was registered for this device
-String DEVICE_PASSWORD = "ukJX^jhFo:re%?ZG.De#"; //password that was registered for this device
+
+//login and password (modification optional)
+String SENSOR_NAME = "sensor1"; //name that was registered for this device
+String SENSOR_PASSWORD = "senharuim"; //password that was registered for this device
 
 
 void setup() {
@@ -16,8 +18,8 @@ void setup() {
 void loop() {
     //sends a value to the monitor system, where SENSOR_ID is the id of the sensor that generated the value
     //if you have multiple sensors on this device, you can use the sendValue function multiple times, with different ids
-    sendValue("SENSOR_ID", "VALUE");
-    sendValue("OTHER_SENSOR_ID", "VALUE");
+    sendValue("","VALUE");
+
 
   
     delay(4000); //wait 4 seconds before sending a new value, just to make it easier to visualize. This is not mandatory
@@ -37,11 +39,11 @@ void sendValue(String sensorId, String value) {
     //Check WiFi connection status
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
-        http.begin("http://" + IP_ADDRESS + ":8000/iotmonitor/new/");
+        http.begin("http://" + IP_ADDRESS + ":8000/iotmonitor/reading/");
         http.addHeader("content-type", "application/x-www-form-urlencoded");
 
-        String body = "device=" + DEVICE_NAME + "&password=" + DEVICE_PASSWORD; //device authentication info
-        body += "&id=" + sensorId + "&value="  + value; //sensor information
+        String body = "sensor=" + SENSOR_NAME + "&password=" + SENSOR_PASSWORD; //device authentication info
+        body += "&value="  + value; //sensor information
 
         Serial.println(body); //prints the http request in the Serial Monitor
         
