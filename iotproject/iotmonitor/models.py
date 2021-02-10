@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+
 # after changing the models, update the database with these commands
 #   python manage.py makemigrations
 #   python manage.py migrate

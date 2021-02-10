@@ -1,12 +1,11 @@
 from django.db.models import Count
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
-from .models import Thing, Sensor, Reading, TypeOfThing
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.views.decorators.http import require_POST
+
+from .models import Thing, TypeOfThing
+from django.contrib.auth import authenticate
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime,timedelta,time
 
 
 def thing_list(request):

@@ -1,6 +1,5 @@
 from django import template
 from django.db.models import Max,Min,Avg
-from django.db.models import Q
 from datetime import datetime,timedelta,time
 
 
