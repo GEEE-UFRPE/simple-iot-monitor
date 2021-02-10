@@ -6,7 +6,7 @@
 <!--Comando para atualizar a pagina a cada 5 segundos-->
 <!-- <meta http-equiv="refresh" content="5;url=">-->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="thing">
             <h2>{{ thing.type_of_thing.name }} {{ thing.name }}</h2>
             <p class="font-italic">{{ thing.description|linebreaksbr }}</span></p>
@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="accordion" id="things-accordion">
             {% for sensor in sensors %}
 
@@ -73,7 +73,7 @@
             {% block scripts %}
             <script>
             Chart.defaults.global.defaultFontColor = 'black';
-            Chart.defaults.global.defaultFontSize = 20;
+            Chart.defaults.global.defaultFontSize = 14;
 
             var ctx = document.getElementById("{{sensor.name}}");
 
@@ -102,7 +102,8 @@
                 },
                 options: {
                     tooltips: {
-                        mode: 'index'
+                        intersect: false,
+                        mode: 'index',
                     },
                     scales: {
                         xAxes: [{
