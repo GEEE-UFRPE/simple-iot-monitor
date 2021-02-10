@@ -23,8 +23,9 @@
                 <div class="card-header bg-info p-0" id="heading{{ sensor.id }}">
                     <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
                             data-target="#collapse{{ sensor.id }}" aria-expanded="false"
-                            aria-controls="collapse{{ sensor.id }}">
-                        Sensor {{sensor.name}} ({{sensor.user.username}})
+                            aria-controls="collapse{{ sensor.id }}"
+                            title="Use this sensor name when sending data: {{sensor.user.username}}">
+                        {{sensor.name}} ({{sensor.user.username}})
                     </button>
                 </div>
                 <div id="collapse{{ sensor.id }}" class="collapse" aria-labelledby="heading{{ sensor.id }}"
@@ -32,35 +33,42 @@
                     <div class="card-body">
                         <p class="font-italic">{{ sensor.description|linebreaksbr }}</span></p>
 
-                        Highest reading (all time): <span class="font-weight-bold">
-                        {{sensor.reading_set|max_value|floatformat:2}} </span><br>
+                        {% if sensor.reading_set.all %}
+                            <div class="alert alert-dark">
+                                Highest reading (all time): <span class="font-weight-bold">
+                                {{sensor.reading_set|max_value|floatformat:2}} </span><br>
 
-                        Lowest reading (all time):<span class="font-weight-bold">
-                        {{sensor.reading_set|min_value|floatformat:2}} </span><br>
+                                Lowest reading (all time):<span class="font-weight-bold">
+                                {{sensor.reading_set|min_value|floatformat:2}} </span><br>
 
-                        Average reading (all time): <span class="font-weight-bold">
-                        {{sensor.reading_set|avg_value|floatformat:2}} </span><br>
+                                Average reading (all time): <span class="font-weight-bold">
+                                {{sensor.reading_set|avg_value|floatformat:2}} </span><br>
+                            </div>
 
-                        <br>
+                            <div class="alert alert-dark">
+                                {% if sensor.reading_set|is_today %}
+                                    Highest reading (today): <span class="font-weight-bold">
+                                    {{sensor.reading_set|is_today|max_value|floatformat:2}} </span><br>
 
-                        Highest reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set|is_today|max_value|floatformat:2}} </span><br>
+                                    Lowest reading (today): <span class="font-weight-bold">
+                                    {{sensor.reading_set|is_today|min_value|floatformat:2}} </span><br>
 
-                        Lowest reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set|is_today|min_value|floatformat:2}} </span><br>
+                                    Average reading (today): <span class="font-weight-bold">
+                                    {{sensor.reading_set|is_today|avg_value|floatformat:2}} </span><br>
 
-                        Average reading (today): <span class="font-weight-bold">
-                        {{sensor.reading_set|is_today|avg_value|floatformat:2}} </span><br>
+                                    Number of readings (today): <span class="font-weight-bold">
+                                    {{sensor.reading_set|is_today|length}} </span><br>
+                                {% else %}
+                                    No reading was recorded today
+                                {% endif %}
+                            </div>
 
-                        Number of readings (today): <span class="font-weight-bold">
-                        {{sensor.reading_set|is_today|length}} </span><br>
-
-                        <br>
+                        {% endif %}
 
                         <hr>
                         {% if sensor.reading_set.all %}
                         <!-- Create a Chart -->
-            <canvas id="{{sensor.name}}" width="300" height="100"></canvas>
+            <canvas id="{{sensor.name}}" width="300" height="100" title="last 30 readings from the sensor"></canvas>
 
             {% block scripts %}
             <script>
@@ -72,9 +80,9 @@
             var dates = []
             var value = []
 
-            {% for reading in sensor.reading_set.all|slice:"0:5" reversed %}
+            {% for reading in sensor.reading_set.all|slice:"0:30" reversed %}
 
-            dates.push('{{reading.created_date|date:"H:i"}}');
+            dates.push('{{reading.created_date|date:"d M Y H:i:s"}}');
             value.push('{{ reading.value }}');
 
             {% endfor %}
@@ -84,29 +92,25 @@
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: 'Leituras',
+                        label: '{{sensor.name}}',
                         data: value,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1,
+                        cubicInterpolationMode: 'monotone'
                     }]
                 },
                 options: {
+                    tooltips: {
+                        mode: 'index'
+                    },
                     scales: {
+                        xAxes: [{
+                            display: false,
+                            scaleLabel: {
+                                display: false
+                            }
+                        }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero:false
@@ -123,7 +127,7 @@
             {% endif %}
 
 
-                        <h5>Most recent readings</h5>
+                        <h5 title="Last 10 readings">Most recent readings</h5>
                         <table class="table table-hover table-sm">
                             <thead>
                             <tr>
