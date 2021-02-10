@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 
 from .models import Thing, TypeOfThing
 from django.contrib.auth import authenticate
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -36,5 +36,5 @@ def new_reading(request):
 		except:
 			return HttpResponseBadRequest('Sensor authenticated but unable to record data. Make sure your sensor provided a value that can be parsed onto a numerical value.')
 	else:
-		response = HttpResponse('Sensor not authenticated. Please check its username ({}) and password.'.format(request.POST.get('sensor')), status=401)
+		response = HttpResponseForbidden('Sensor not authenticated. Please check its username ({}) and password.'.format(request.POST.get('sensor')))
 		return response
