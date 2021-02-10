@@ -11,5 +11,4 @@ class IotmonitorConfig(AppConfig):
         if os.environ.get('RUN_MAIN') != 'true':
             with open('ip.txt', 'r') as file:
                 ip = file.readline()
-                print('Opening default browser...')
                 webbrowser.open("http://{}:8000/iotmonitor".format(ip))

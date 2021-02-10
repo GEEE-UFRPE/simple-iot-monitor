@@ -27,8 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 #read allowed host ip from an external file
-with open("ip.txt","r") as file:
+try:
+    file = open('ip.txt','r')
     ALLOWED_HOSTS.append(file.readline())
+except:
+    #this pass exists to prevent a error when running pyinstaller
+    pass
 
 
 
