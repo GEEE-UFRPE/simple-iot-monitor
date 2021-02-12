@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'awesome_django_timezones',
     'iotmonitor.apps.IotmonitorConfig'
 ]
 
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'awesome_django_timezones.middleware.TimezonesMiddleware',
 ]
 
 ROOT_URLCONF = 'iotproject.urls'
@@ -115,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Recife'
+# TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 
