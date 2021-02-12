@@ -1,6 +1,6 @@
 from django import template
 from django.db.models import Max,Min,Avg
-from datetime import datetime,timedelta,time
+from django.utils import timezone
 
 
 register = template.Library()
@@ -22,10 +22,5 @@ def avg_value(list):
 
 @register.filter
 def is_today(list):
-    print(time())
-    today = datetime.now().date()
-    tomorrow = today + timedelta(1)
-    today_start = datetime.combine(today, time())
-    today_end = datetime.combine(tomorrow, time())
-    return list.filter(created_date__range=[today_start,today_end])
+    return list.filter(created_date__date=timezone.now().date())
 
