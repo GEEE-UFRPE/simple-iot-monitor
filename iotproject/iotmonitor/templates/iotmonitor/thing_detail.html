@@ -2,7 +2,8 @@
 {% load tags_extras%}
 {% block content %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"></script>
+{% load static %}
+<script src="{% static 'iotmonitor/lib/Chart.bundle.js' %}"></script>
 
 <div class="row">
     <div class="col-md-10">
