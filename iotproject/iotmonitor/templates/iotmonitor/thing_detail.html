@@ -164,6 +164,9 @@
                             {% endfor %}
                             </tbody>
                         </table>
+                        {% if sensor.reading_set.all %}
+                            <a href="{% url 'export_readings_csv' pk=sensor.pk %}">Download ALL readings as CSV </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
