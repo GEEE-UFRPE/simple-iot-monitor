@@ -22,5 +22,5 @@ def avg_value(list):
 
 @register.filter
 def is_today(list):
-    return list.filter(created_date__date=timezone.now().date())
+    return list.filter(created_date__date=timezone.now().astimezone().date())
 
