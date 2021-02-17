@@ -1,10 +1,12 @@
 import csv
 
+from awesome_django_timezones.middleware import TimezonesMiddleware
 from django.contrib.auth import authenticate
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.decorators import decorator_from_middleware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -17,6 +19,9 @@ def thing_list(request):
     return render(request, 'iotmonitor/thing_list.html',
                   {'types': types, 'things_without_type': things_without_type})
 
+timezone_decorator = decorator_from_middleware(TimezonesMiddleware)
+
+@timezone_decorator
 def thing_detail(request, pk):
     thing = Thing.objects.get(pk=pk)
     sensors = thing.sensor_set.all().order_by('name')

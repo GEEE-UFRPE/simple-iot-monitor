@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'awesome_django_timezones.middleware.TimezonesMiddleware',
+    'iotmonitor.middleware.timezone_wrapper.TimezoneMiddlewareWrapper'
 ]
 
 ROOT_URLCONF = 'iotproject.urls'
