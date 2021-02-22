@@ -21,11 +21,12 @@
 
             <div class="card">
                 <div class="card-header bg-info p-0" id="heading{{ sensor.id }}">
-                    <button class="btn btn-block text-left text-white" type="button" data-toggle="collapse"
+                    <button class="btn btn-block text-left text-white collapsed" type="button" data-toggle="collapse"
                             data-target="#collapse{{ sensor.id }}" aria-expanded="false"
                             aria-controls="collapse{{ sensor.id }}"
                             title="Use this sensor name when sending data: {{sensor.user.username}}">
                         {{sensor.name}} ({{sensor.user.username}})
+                        <span aria-hidden="true" class="accordion-icon float-right"></span>
                     </button>
                 </div>
                 <div id="collapse{{ sensor.id }}" class="collapse" aria-labelledby="heading{{ sensor.id }}"
